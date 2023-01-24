@@ -1,6 +1,5 @@
 const sharp = require("sharp");
 const jimp = require("jimp");
-const { index } = require("mathjs");
 let width = 150
 let height = 150
 async function resizeImage() {
@@ -21,7 +20,8 @@ async function resizeImage() {
 const graphedPixels = []; 
 async function why() {
     await resizeImage();
-    const image = await jimp.read("changed.png");
+    const image = await jimp.read("among.png");
+
     for (let x = 0; x < width + 1; x++) {
         for (let y = 0; y < width + 1; y++) {
             graphedPixels.push({
@@ -30,28 +30,27 @@ async function why() {
             });
         }
     }//this whole for loop https://sourceb.in/tUUDa1teIQ
-    graphedPixels.sort((a, b) => a.color.g - b.color.g)
+    graphedPixels.sort((a, b) => a.color.r - b.color.r)
 }
-let indeex = 1;
-let arraySortX = [5,-8,3,-10,2,-8]
+let arraySortX = [15,10,35,10,2,1,3,4,6,7,5,7,5]
+let num = 0;
 async function equation() {
     await why()
-    indeex = graphedPixels.filter((element) => element.color.g === 255)
-    for (let index = 0; index < indeex.length; index++) {
-        if(index % 3 === 0 && index !== 0) {
-            //console.log(index)
-            arraySortX.push(indeex[index].position.x,indeex[index].position.y)
-            arraySortX.push(indeex[index-1].position.x,indeex[index-1].position.y)
-            arraySortX.push(indeex[index-2].position.x,indeex[index-2].position.y)
-            //console.log(arraySortX)
-            inPain();
-            arraySortX = []
+    let sorted = []
+        sorted = graphedPixels.filter(function(element,index) {
+        if(graphedPixels[num].color.r === element.color.r) {
+            let returned = [element.position.x, element.position.y]
+            num++
+            console.log(returned)
+            return returned
         }
-    }
+        console.log(sorted)
+        arraySortX = sorted;
+        })
+
 }
-solveY()
-//we do equation in later patches (Dec 10.)
-//for now we do the paper/proof of concept such as just 
+inPain()
+export default sorted
 async function line() {
     let i = 0;
     let x = 'no';
@@ -67,77 +66,21 @@ async function line() {
         }
     });
     if(array[1] === undefined) {
+        console.log('')
     } else {
-    let slope = Math.round(array[1].y-array[0].y)/(array[1].x-array[0].x)
+		let help = array[0].y-array[1].y
+		let no = array[1].x-array[0].x
+    let slope = help/no;
+		if(slope === Infinity) {
+			slope = 0;
+		}
     //y=slopex+b
     //lets find b
     let combined = slope*array[0].x;
     let b = array[0].y-combined
-    if(slope === Infinity) {
-
-    } else if(b === NaN) {
-
-    } else {
-        console.log(`y=${slope}x+${b}`)
-    }
+    console.log(`y=${slope}x+${b}`)
     
 }}
-async function solveY() {
-	let a = 'a'
-  let b = 'b'
-  let c = 'c'
-  let array = []
-  let i = 0;
-  let x = 'no';
-	arraySortX.forEach(function(element,index) {
-        if(i==0) {
-            x = element;
-            i++
-        } else {
-            array.push({x: x, y:element})
-            i = 0
-            x = 'no'
-        }
-    });
-    let array2 = [];
-    array.forEach(function(element, index) {
-        array2.push({aVar: Math.pow(array[index].y,2), bVar:array[index].y, x:array[index].x});
-        //NO MORE C
-    })
-	//now no more a
-	let array3 = [];
-    function breuh() {
-        let I = 0;
-        for (let index = 0; index < array2.length; index=index+2) {
-            if(array2[I+1] === undefined) {
-                line()
-            } else {
-            temp = array2[I+1].aVar
-            let once = array2[I].aVar - temp
-            temp = 0;
-            temp = array2[I+1].bVar
-            let twice = array2[I].bVar -temp
-            temp = 0;
-            temp = array2[I+1].x
-            let thrice = array2[I].x -temp
-            array3.push({aVar: once,bVar: twice,x:thrice})
-            I=I+1
-        }}
-    }
-    breuh()
-	let nuMult = 1;
-	function multiply() {
-		array3.forEach(function(element,index) {
-					nuMult = element.aVar*nuMult;
-		})
-	}
-	multiply()
-	let array4 = []
-	function findB() {
-		array4.push({bVar:array3[0].bVar})
-	}
-	console.log(array4)
-}
 async function inPain() {
     let a = 'a'
     let b = 'b'
@@ -157,7 +100,8 @@ async function inPain() {
     });
     let array2 = [];
     array.forEach(function(element, index) {
-        array2.push({aVar: Math.pow(array[index].x,2), bVar:array[index].x, cVar:'c',y:array[index].y});
+        let crongle = array[index].y
+        array2.push({aVar: Math.pow(array[index].x,2), bVar:array[index].x, cVar:'c',y:crongle});
         //NO MORE C
     })
 
@@ -248,24 +192,16 @@ async function inPain() {
                     itch++
                     
                 }
+                array2 = []
                 c = array9[0].y;
             })
             //same thing as findA()
 
         }
         findC()
-        console.log(a,b,c)
-        if(array2[0] === undefined | a === Infinity) {
-        }
-        for (let index = 0; index < array2.length; index++) {
-            if(a*Math.pow(array2[index].bVar,2)+(b*array2[index].bVar)+c === array2[index].y && index !== 2) {
-            } else if(index === 2) {
-                console.log(`${a}x^2+${b}x+${c}=y`)
-            } else {
-                solveY()
-            }
-            
-        }
+        console.log(`${a}x^2+${b}x+${c}=y`)
+
+
     }
     breuhuh();
 }
